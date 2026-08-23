@@ -1,0 +1,4 @@
+# No hay dependencias obligatorias de PyPI.
+# Instala las herramientas del sistema que correspondan:
+# - nmap
+# - sublist3r
