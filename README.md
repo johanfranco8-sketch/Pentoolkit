@@ -2,52 +2,47 @@
 
 Toolkit educativo para auditorías de seguridad autorizadas en sistemas propios o con permiso escrito.
 
-## Estructura
+## Historial de resultados
 
-- `pentoolkit/main.py`: menú original y punto de entrada.
-- `pentoolkit/categorized_menu.py`: menú organizado por Reconocimiento, Vulnerabilidades y Monitoreo.
-- `pentoolkit/modules/reconnaissance.py`: reconocimiento autorizado con Nmap y Sublist3r.
-- `pentoolkit/modules/host_auditing.py`: revisión local de intentos fallidos y procesos.
-- `pentoolkit/modules/network_auditing.py`: resumen local de conexiones activas.
-- `pentoolkit/core/runner.py`: ejecución segura de comandos externos.
+Cada ejecución guarda automáticamente stdout, stderr, fecha, comando y código de salida en:
 
-## Instalación
-
-Se requiere Python 3.10 o superior y, según la función utilizada, Nmap, Sublist3r y herramientas del sistema.
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+```text
+logs/<categoría>/<YYYY-MM-DD>/<herramienta>_<HHMMSS>.txt
 ```
 
-## 🚀 Cómo usarlo
+Categorías actuales: `reconocimiento`, `vulnerabilidades` y `monitoreo`.
 
-Menú categorizado:
+## Implementación realizada
 
-```bash
-python3 -m pentoolkit.categorized_menu
+El archivo `pentoolkit.py` ahora:
+
+- Guarda automáticamente los resultados de cada ejecución.
+- Crea carpetas por categoría y fecha.
+- Registra el comando ejecutado, fecha y hora, código de salida, salida estándar y errores producidos.
+- Utiliza ejecución de procesos sin `shell=True`.
+- Incluye el menú categorizado: Reconocimiento, Vulnerabilidades y Monitoreo.
+- Maneja errores cuando faltan herramientas como `nmap`, `sublist3r`, `ss` o `netstat`.
+
+Estructura generada:
+
+```text
+logs/
+├── reconocimiento/
+│   └── YYYY-MM-DD/
+├── vulnerabilidades/
+│   └── YYYY-MM-DD/
+└── monitoreo/
+    └── YYYY-MM-DD/
 ```
 
-Menú original:
+Para ejecutarlo desde esa rama:
 
 ```bash
-python3 -m pentoolkit.main
-```
-
-Si trabajas con un archivo independiente llamado `pentoolkit.py`, puedes darle permisos de ejecución y ejecutarlo así:
-
-```bash
+git checkout feature/organized-results
 chmod +x pentoolkit.py
 python3 pentoolkit.py
 ```
 
-Navega por el menú y selecciona la categoría y herramienta que quieras usar.
-
 ## Uso responsable
 
-Ejecuta escaneos únicamente contra activos propios o cubiertos por una autorización explícita y documentada. Define alcance, fechas, técnicas permitidas y contactos de emergencia antes de realizar una prueba. No uses este proyecto para evadir controles, acceder a cuentas, interrumpir servicios o analizar terceros sin autorización.
-
-## Limitaciones
-
-Las funciones de red ejecutan herramientas externas y sus resultados dependen de las utilidades instaladas y de los permisos del sistema. El módulo de logs y procesos está diseñado para auditoría local.
+Los escaneos deben ejecutarse únicamente contra activos propios o cubiertos por autorización explícita y documentada. Los archivos de `logs/` pueden contener información sensible; no los publiques ni los subas a repositorios sin revisar su contenido.
