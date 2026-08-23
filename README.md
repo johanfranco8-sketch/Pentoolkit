@@ -4,8 +4,7 @@ Toolkit educativo para auditorías de seguridad autorizadas en sistemas propios 
 
 ## Estructura
 
-- `pentoolkit/main.py`: menú original y punto de entrada.
-- `pentoolkit/categorized_menu.py`: menú organizado por Reconocimiento, Vulnerabilidades y Monitoreo.
+- `pentoolkit/main.py`: punto de entrada y menú.
 - `pentoolkit/modules/reconnaissance.py`: reconocimiento autorizado con Nmap y Sublist3r.
 - `pentoolkit/modules/host_auditing.py`: revisión local de intentos fallidos y procesos.
 - `pentoolkit/modules/network_auditing.py`: resumen local de conexiones activas.
@@ -19,30 +18,95 @@ Se requiere Python 3.10 o superior y, según la función utilizada, Nmap, Sublis
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+python -m pentoolkit.main
 ```
 
 ## 🚀 Cómo usarlo
 
-Menú categorizado:
+Guarda el archivo como `pentoolkit.py`.
 
-```bash
-python3 -m pentoolkit.categorized_menu
-```
-
-Menú original:
-
-```bash
-python3 -m pentoolkit.main
-```
-
-Si trabajas con un archivo independiente llamado `pentoolkit.py`, puedes darle permisos de ejecución y ejecutarlo así:
+Dale permisos de ejecución:
 
 ```bash
 chmod +x pentoolkit.py
+```
+
+Ejecútalo:
+
+```bash
 python3 pentoolkit.py
 ```
 
-Navega por el menú y selecciona la categoría y herramienta que quieras usar.
+Navega por el menú y selecciona la herramienta que quieras usar.
+
+> Nota: en la estructura modular actual, el punto de entrada recomendado es `python3 -m pentoolkit.main`. Ejecuta herramientas de red únicamente contra sistemas propios o con autorización explícita.
+
+## 🔧 Pasos para crear alias
+
+### 1. Abrir tu archivo de configuración de shell
+
+Si usas Bash (por defecto en Kali):
+
+```bash
+nano ~/.bashrc
+```
+
+Si usas Zsh:
+
+```bash
+nano ~/.zshrc
+```
+
+### 2. Agregar alias personalizados
+
+Dentro del archivo, al final, añade líneas como estas:
+
+```bash
+# Alias para Pentoolkit
+alias pentoolkit="python3 ~/pentest-scripts/pentoolkit.py"
+
+# Alias para escaneo rápido de puertos
+alias quickscan="python3 ~/pentest-scripts/reconnaissance/nmap_scan.py"
+
+# Alias para ver procesos sospechosos
+alias suspicious="bash ~/pentest-scripts/monitoring/suspicious_processes.sh"
+```
+
+### 3. Guardar y recargar configuración
+
+Después de editar, guarda con `CTRL+O`, sal con `CTRL+X` y recarga:
+
+```bash
+source ~/.bashrc
+```
+
+En Zsh, recarga con:
+
+```bash
+source ~/.zshrc
+```
+
+### 4. Usar tus alias
+
+Ahora puedes ejecutar directamente:
+
+```bash
+pentoolkit
+quickscan
+suspicious
+```
+
+### 📌 Tip avanzado
+
+Si quieres tener todos tus scripts accesibles con un solo alias, puedes crear uno que liste y ejecute:
+
+```bash
+alias pentools="cd ~/pentest-scripts && ls"
+```
+
+Al escribir `pentools`, entrarás a tu carpeta y verás todos los scripts disponibles.
+
+> Usa estos alias únicamente con herramientas y objetivos autorizados. Revisa las rutas de los scripts antes de ejecutarlos.
 
 ## Uso responsable
 
