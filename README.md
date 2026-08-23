@@ -14,12 +14,39 @@ Toolkit educativo para auditorías de seguridad autorizadas en sistemas propios 
 
 Se requiere Python 3.10 o superior y, según la función utilizada, Nmap, Sublist3r y herramientas del sistema.
 
+### Linux (Bash/Kali)
+
 ```bash
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 python -m pentoolkit.main
 ```
+
+### Windows
+
+En PowerShell, crea y activa el entorno virtual con:
+
+```powershell
+py -m venv .venv
+.venv\Scripts\Activate.ps1
+py -m pip install -r requirements.txt
+py -m pentoolkit.main
+```
+
+Si PowerShell bloquea la activación del entorno, puedes permitirla únicamente durante la sesión actual:
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
+
+Para ejecutar el archivo independiente:
+
+```powershell
+py pentoolkit.py
+```
+
+> `chmod` y los alias de Bash/Zsh no aplican directamente a PowerShell. Instala las herramientas externas necesarias y asegúrate de que estén disponibles en `PATH`.
 
 ## 🚀 Cómo usarlo
 
