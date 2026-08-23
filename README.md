@@ -21,6 +21,26 @@ pip install -r requirements.txt
 python -m pentoolkit.main
 ```
 
+## 🚀 Cómo usarlo
+
+Guarda el archivo como `pentoolkit.py`.
+
+Dale permisos de ejecución:
+
+```bash
+chmod +x pentoolkit.py
+```
+
+Ejecútalo:
+
+```bash
+python3 pentoolkit.py
+```
+
+Navega por el menú y selecciona la herramienta que quieras usar.
+
+> Nota: en la estructura modular actual, el punto de entrada recomendado es `python3 -m pentoolkit.main`. Ejecuta herramientas de red únicamente contra sistemas propios o con autorización explícita.
+
 ## Uso responsable
 
 Ejecuta escaneos únicamente contra activos propios o cubiertos por una autorización explícita y documentada. Define alcance, fechas, técnicas permitidas y contactos de emergencia antes de realizar una prueba. No uses este proyecto para evadir controles, acceder a cuentas, interrumpir servicios o analizar terceros sin autorización.
