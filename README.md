@@ -62,14 +62,23 @@ nano ~/.zshrc
 Dentro del archivo, al final, añade líneas como estas:
 
 ```bash
-# Alias para Pentoolkit
+# === Pentoolkit Maestro ===
 alias pentoolkit="python3 ~/pentest-scripts/pentoolkit.py"
 
-# Alias para escaneo rápido de puertos
-alias quickscan="python3 ~/pentest-scripts/reconnaissance/nmap_scan.py"
+# === Reconocimiento ===
+alias nmapscan="python3 ~/pentest-scripts/reconnaissance/nmap_scan.py"
+alias subdomains="python3 ~/pentest-scripts/reconnaissance/subdomain_enum.py"
 
-# Alias para ver procesos sospechosos
-alias suspicious="bash ~/pentest-scripts/monitoring/suspicious_processes.sh"
+# === Vulnerabilidades ===
+alias vulnscan="python3 ~/pentest-scripts/vulnerability/vuln_scan.py"
+
+# === Monitoreo ===
+alias failedlogins="python3 ~/pentest-scripts/monitoring/failed_logins.py"
+alias suspiciousproc="bash ~/pentest-scripts/monitoring/suspicious_processes.sh"
+alias activeconns="bash ~/pentest-scripts/monitoring/active_connections.sh"
+
+# === Toolkit rápido ===
+alias pentools="cd ~/pentest-scripts && ls"
 ```
 
 ### 3. Guardar y recargar configuración
@@ -86,27 +95,26 @@ En Zsh, recarga con:
 source ~/.zshrc
 ```
 
-### 4. Usar tus alias
+### 4. 🚀 Uso rápido
 
-Ahora puedes ejecutar directamente:
+- `pentoolkit` → abre el menú maestro interactivo.
+- `nmapscan` → ejecuta un escaneo Nmap flexible.
+- `subdomains` → realiza enumeración de subdominios.
+- `vulnscan` → ejecuta un escaneo de vulnerabilidades con Nmap NSE.
+- `failedlogins` → muestra intentos de inicio de sesión fallidos.
+- `suspiciousproc` → lista procesos del sistema ejecutados por root.
+- `activeconns` → muestra las IP con más conexiones activas.
+- `pentools` → entra en la carpeta y lista los scripts disponibles.
 
-```bash
-pentoolkit
-quickscan
-suspicious
-```
+> Verifica que las rutas existan y utiliza estos alias únicamente con herramientas y objetivos autorizados.
 
 ### 📌 Tip avanzado
 
-Si quieres tener todos tus scripts accesibles con un solo alias, puedes crear uno que liste y ejecute:
+Si quieres tener todos tus scripts accesibles con un solo alias, puedes crear uno alternativo que liste el contenido del directorio:
 
 ```bash
 alias pentools="cd ~/pentest-scripts && ls"
 ```
-
-Al escribir `pentools`, entrarás a tu carpeta y verás todos los scripts disponibles.
-
-> Usa estos alias únicamente con herramientas y objetivos autorizados. Revisa las rutas de los scripts antes de ejecutarlos.
 
 ## Uso responsable
 
