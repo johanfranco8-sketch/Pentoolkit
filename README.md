@@ -4,7 +4,8 @@ Toolkit educativo para auditorías de seguridad autorizadas en sistemas propios 
 
 ## Estructura
 
-- `pentoolkit/main.py`: punto de entrada y menú.
+- `pentoolkit/main.py`: menú original y punto de entrada.
+- `pentoolkit/categorized_menu.py`: menú organizado por Reconocimiento, Vulnerabilidades y Monitoreo.
 - `pentoolkit/modules/reconnaissance.py`: reconocimiento autorizado con Nmap y Sublist3r.
 - `pentoolkit/modules/host_auditing.py`: revisión local de intentos fallidos y procesos.
 - `pentoolkit/modules/network_auditing.py`: resumen local de conexiones activas.
@@ -18,28 +19,30 @@ Se requiere Python 3.10 o superior y, según la función utilizada, Nmap, Sublis
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-python -m pentoolkit.main
 ```
 
 ## 🚀 Cómo usarlo
 
-Guarda el archivo como `pentoolkit.py`.
+Menú categorizado:
 
-Dale permisos de ejecución:
+```bash
+python3 -m pentoolkit.categorized_menu
+```
+
+Menú original:
+
+```bash
+python3 -m pentoolkit.main
+```
+
+Si trabajas con un archivo independiente llamado `pentoolkit.py`, puedes darle permisos de ejecución y ejecutarlo así:
 
 ```bash
 chmod +x pentoolkit.py
-```
-
-Ejecútalo:
-
-```bash
 python3 pentoolkit.py
 ```
 
-Navega por el menú y selecciona la herramienta que quieras usar.
-
-> Nota: en la estructura modular actual, el punto de entrada recomendado es `python3 -m pentoolkit.main`. Ejecuta herramientas de red únicamente contra sistemas propios o con autorización explícita.
+Navega por el menú y selecciona la categoría y herramienta que quieras usar.
 
 ## Uso responsable
 
