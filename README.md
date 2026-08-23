@@ -4,149 +4,126 @@ Toolkit educativo para auditorías de seguridad autorizadas en sistemas propios 
 
 ## Estructura
 
-- `pentoolkit/main.py`: punto de entrada y menú.
-- `pentoolkit/modules/reconnaissance.py`: reconocimiento autorizado con Nmap y Sublist3r.
-- `pentoolkit/modules/host_auditing.py`: revisión local de intentos fallidos y procesos.
-- `pentoolkit/modules/network_auditing.py`: resumen local de conexiones activas.
-- `pentoolkit/core/runner.py`: ejecución segura de comandos externos.
+- `pentoolkit.py`: menú independiente con historial de resultados.
+- `pentoolkit/main.py`: punto de entrada modular.
+- `pentoolkit/modules/`: módulos de reconocimiento, auditoría local y red.
+- `pentoolkit/core/`: componentes centrales.
+- `logs/`: resultados locales generados durante las ejecuciones; no debe publicarse si contiene información sensible.
 
 ## Instalación
 
-Se requiere Python 3.10 o superior y, según la función utilizada, Nmap, Sublist3r y herramientas del sistema.
-
 ### Linux (Bash/Kali)
 
+Debes ejecutar los comandos desde la carpeta raíz del repositorio, es decir, la carpeta que contiene `requirements.txt` y el directorio `pentoolkit/`.
+
 ```bash
-python -m venv .venv
+git clone https://github.com/johanfranco8-sketch/Pentoolkit.git
+cd Pentoolkit
+
+python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
-python -m pentoolkit.main
+python3 -m pip install --upgrade pip
+python3 -m pip install -r requirements.txt
 ```
 
-### Windows
+Comprueba que estás en la ubicación correcta:
 
-En PowerShell, crea y activa el entorno virtual con:
+```bash
+pwd
+ls
+test -f requirements.txt && echo "requirements.txt encontrado"
+test -d pentoolkit && echo "paquete pentoolkit encontrado"
+which python3
+python3 -c 'import sys; print(sys.executable)'
+```
+
+> Si `pip` muestra `No such file or directory: requirements.txt`, estás en una carpeta incorrecta o el archivo no existe en tu copia local. Ejecuta `pwd` y `ls`, y vuelve a entrar en la raíz del repositorio con `cd`.
+
+## Ejecución en Linux
+
+Menú modular:
+
+```bash
+python3 -m pentoolkit.main
+```
+
+Archivo independiente:
+
+```bash
+chmod +x pentoolkit.py
+python3 pentoolkit.py
+```
+
+> Si aparece `ModuleNotFoundError: No module named 'pentoolkit'`, verifica que el entorno esté activado, que estés en la raíz del repositorio y que exista el directorio `pentoolkit/`. El comando `python3 -m pentoolkit.main` debe ejecutarse desde esa raíz.
+
+## Instalación en Windows
+
+En PowerShell, abre la carpeta raíz del repositorio:
 
 ```powershell
+git clone https://github.com/johanfranco8-sketch/Pentoolkit.git
+Set-Location Pentoolkit
+
 py -m venv .venv
 .venv\Scripts\Activate.ps1
+py -m pip install --upgrade pip
 py -m pip install -r requirements.txt
+```
+
+Ejecuta el menú modular:
+
+```powershell
 py -m pentoolkit.main
 ```
 
-Si PowerShell bloquea la activación del entorno, puedes permitirla únicamente durante la sesión actual:
-
-```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-```
-
-Para ejecutar el archivo independiente:
+O el archivo independiente:
 
 ```powershell
 py pentoolkit.py
 ```
 
-> `chmod` y los alias de Bash/Zsh no aplican directamente a PowerShell. Instala las herramientas externas necesarias y asegúrate de que estén disponibles en `PATH`.
+Si PowerShell bloquea la activación durante la sesión actual:
 
-## 🚀 Cómo usarlo
-
-Guarda el archivo como `pentoolkit.py`.
-
-Dale permisos de ejecución:
-
-```bash
-chmod +x pentoolkit.py
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.venv\Scripts\Activate.ps1
 ```
 
-Ejecútalo:
+## Herramientas externas
 
-```bash
-python3 pentoolkit.py
+Las funciones de reconocimiento requieren que `nmap` y, para enumeración de subdominios, `sublist3r` estén instalados y disponibles en `PATH`. Las funciones locales pueden usar `ps`, `ss` o `netstat` según el sistema.
+
+## Historial de resultados
+
+El archivo `pentoolkit.py` guarda los resultados en:
+
+```text
+logs/<categoría>/<YYYY-MM-DD>/<herramienta>_<HHMMSS>.txt
 ```
 
-Navega por el menú y selecciona la herramienta que quieras usar.
+Los registros pueden contener direcciones IP, nombres de host, rutas y otra información sensible. Revísalos antes de compartirlos o subirlos a GitHub.
 
-> Nota: en la estructura modular actual, el punto de entrada recomendado es `python3 -m pentoolkit.main`. Ejecuta herramientas de red únicamente contra sistemas propios o con autorización explícita.
+## Alias de shell
 
-## 🔧 Pasos para crear alias
-
-### 1. Abrir tu archivo de configuración de shell
-
-Si usas Bash (por defecto en Kali):
+Los alias de Bash/Zsh solo funcionarán si las rutas apuntan a tu copia local real. Por ejemplo, desde una instalación en `~/Pentoolkit`:
 
 ```bash
-nano ~/.bashrc
+alias pentoolkit="python3 ~/Pentoolkit/pentoolkit.py"
+alias pentools="cd ~/Pentoolkit && ls"
 ```
 
-Si usas Zsh:
-
-```bash
-nano ~/.zshrc
-```
-
-### 2. Agregar alias personalizados
-
-Dentro del archivo, al final, añade líneas como estas:
-
-```bash
-# === Pentoolkit Maestro ===
-alias pentoolkit="python3 ~/pentest-scripts/pentoolkit.py"
-
-# === Reconocimiento ===
-alias nmapscan="python3 ~/pentest-scripts/reconnaissance/nmap_scan.py"
-alias subdomains="python3 ~/pentest-scripts/reconnaissance/subdomain_enum.py"
-
-# === Vulnerabilidades ===
-alias vulnscan="python3 ~/pentest-scripts/vulnerability/vuln_scan.py"
-
-# === Monitoreo ===
-alias failedlogins="python3 ~/pentest-scripts/monitoring/failed_logins.py"
-alias suspiciousproc="bash ~/pentest-scripts/monitoring/suspicious_processes.sh"
-alias activeconns="bash ~/pentest-scripts/monitoring/active_connections.sh"
-
-# === Toolkit rápido ===
-alias pentools="cd ~/pentest-scripts && ls"
-```
-
-### 3. Guardar y recargar configuración
-
-Después de editar, guarda con `CTRL+O`, sal con `CTRL+X` y recarga:
+Recarga Bash con:
 
 ```bash
 source ~/.bashrc
 ```
 
-En Zsh, recarga con:
+Recarga Zsh con:
 
 ```bash
 source ~/.zshrc
 ```
 
-### 4. 🚀 Uso rápido
-
-- `pentoolkit` → abre el menú maestro interactivo.
-- `nmapscan` → ejecuta un escaneo Nmap flexible.
-- `subdomains` → realiza enumeración de subdominios.
-- `vulnscan` → ejecuta un escaneo de vulnerabilidades con Nmap NSE.
-- `failedlogins` → muestra intentos de inicio de sesión fallidos.
-- `suspiciousproc` → lista procesos del sistema ejecutados por root.
-- `activeconns` → muestra las IP con más conexiones activas.
-- `pentools` → entra en la carpeta y lista los scripts disponibles.
-
-> Verifica que las rutas existan y utiliza estos alias únicamente con herramientas y objetivos autorizados.
-
-### 📌 Tip avanzado
-
-Si quieres tener todos tus scripts accesibles con un solo alias, puedes crear uno alternativo que liste el contenido del directorio:
-
-```bash
-alias pentools="cd ~/pentest-scripts && ls"
-```
-
 ## Uso responsable
 
 Ejecuta escaneos únicamente contra activos propios o cubiertos por una autorización explícita y documentada. Define alcance, fechas, técnicas permitidas y contactos de emergencia antes de realizar una prueba. No uses este proyecto para evadir controles, acceder a cuentas, interrumpir servicios o analizar terceros sin autorización.
-
-## Limitaciones
-
-Las funciones de red ejecutan herramientas externas y sus resultados dependen de las utilidades instaladas y de los permisos del sistema. El módulo de logs y procesos está diseñado para auditoría local.
